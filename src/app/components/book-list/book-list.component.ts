@@ -19,21 +19,22 @@ export class BookListComponent implements OnInit {
 
     this.activatedRout.paramMap.subscribe(
       ()=>{
-        this.listBooksByCategory();
+        this.SelectAllBooks();
       }
     );
   }
 
   SelectAllBooks() {
+    const hasCategoryId:boolean= this.activatedRout.snapshot.paramMap.has('id');
+    if(hasCategoryId){
+      this.categoryId= +this.activatedRout.snapshot.paramMap.get('id');
+    }else{
+      this.categoryId=1;
+    }
     this.booksService.getAllBooks(this.categoryId).subscribe(
       (books) => {
         this.books = books;
       }
     );
   }
-
-  listBooksByCategory() {
-    this.categoryId= +this.activatedRout.snapshot.paramMap.get('id');
-  }
-
 }
