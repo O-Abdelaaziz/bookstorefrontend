@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BooksService } from 'src/app/services/books.service';
 import { Book } from 'src/app/models/book';
 import { ActivatedRoute } from '@angular/router';
+import { Category } from 'src/app/models/category';
+import { CategoriesService } from 'src/app/services/categories.service';
 
 @Component({
   selector: 'app-book-list',
@@ -10,9 +12,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BookListComponent implements OnInit {
   books: Book[];
+  categories :Category[];
   categoryId:number;
 
-  constructor(private booksService: BooksService,private activatedRout: ActivatedRoute) { }
+  constructor(
+    private booksService: BooksService,
+    private categoriesService: CategoriesService,
+    private activatedRout: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.SelectAllBooks();
@@ -22,6 +28,8 @@ export class BookListComponent implements OnInit {
         this.SelectAllBooks();
       }
     );
+
+    this.SelectAllCategories();
   }
 
   SelectAllBooks() {
@@ -34,6 +42,16 @@ export class BookListComponent implements OnInit {
     this.booksService.getAllBooks(this.categoryId).subscribe(
       (books) => {
         this.books = books;
+      }
+    );
+  }
+
+  SelectAllCategories(){
+    this.categoriesService.getAllCategories().subscribe(
+      (categories)=>{
+        this.categories=categories;
+        console.log(categories);
+        
       }
     );
   }
