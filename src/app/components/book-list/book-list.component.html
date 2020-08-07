@@ -5,6 +5,7 @@
             <th>name</th>
             <th>description</th>
             <th>price</th>
+            <th>image</th>
         </tr>
     </thead>
     <tbody>
@@ -12,6 +13,7 @@
             <td>{{book.name}}</td>
             <td>{{book.description}}</td>
             <td>{{book.unit_price}}</td>
+            <td><img [src]="book.image_url" alt="" height="120"></td>
         </tr>
     </tbody>
 </table>
