@@ -1,19 +1,17 @@
-<p>book-list</p>
-<table>
-    <thead>
-        <tr>
-            <th>name</th>
-            <th>description</th>
-            <th>price</th>
-            <th>image</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let book of books">
-            <td>{{book.name}}</td>
-            <td>{{book.description}}</td>
-            <td>{{book.unit_price}}</td>
-            <td><img [src]="book.image_url" alt="" height="120"></td>
-        </tr>
-    </tbody>
-</table>
+<div class="row" >
+<div class="col-lg-4 col-md-6 mb-4" *ngFor="let book of books">
+    <div class="card h-100">
+      <a href="#"><img class="card-img-top" [src]="book.image_url" alt=""></a>
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="#">{{book.name | uppercase}}</a>
+        </h4>
+        <h5>{{book.unit_price | currency}}</h5>
+        <p class="card-text">{{book.description}}</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+      </div>
+    </div>
+  </div>
+</div>
