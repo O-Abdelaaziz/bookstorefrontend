@@ -20,8 +20,9 @@ export class BooksService {
 
   constructor(private http: HttpClient) { }
 
-  getAllBooks(): Observable<Book[]> {
-    return this.http.get<GetEmbeddedBooks>(this.baseUrl).pipe(
+  getAllBooks(categoryId:number): Observable<Book[]> {
+    const searchUrl=`${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
+    return this.http.get<GetEmbeddedBooks>(searchUrl).pipe(
       map(response=>response._embedded.books)
     );
   }

@@ -7,10 +7,10 @@
           <a href="#">{{book.name | uppercase}}</a>
         </h4>
         <h5>{{book.unit_price | currency}}</h5>
-        <p class="card-text">{{book.description}}</p>
+        <p class="card-text text-truncate">{{book.description}}</p>
       </div>
       <div class="card-footer">
-        <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+        <button class="btn btn-primary float-right">Add Cart</button>
       </div>
     </div>
   </div>
