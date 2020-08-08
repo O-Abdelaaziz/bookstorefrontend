@@ -27,7 +27,7 @@ export class BookListComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(
       () => {
         this.selectAllBooks();
-        this.selectAllBooksByName();
+        //this.selectAllBooksByName();
       }
     );
   }
@@ -54,7 +54,7 @@ export class BookListComponent implements OnInit {
     this.bookName = this.activatedRoute.snapshot.paramMap.get('name');
     // }else{
     //   this.bookName='';
-    // }    
+    // }
 
     this.booksService.getAllBooksByName(this.bookName).subscribe(
       (bookListByName) => {

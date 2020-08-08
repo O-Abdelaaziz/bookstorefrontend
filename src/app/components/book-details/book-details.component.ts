@@ -13,7 +13,7 @@ export class BookDetailsComponent implements OnInit {
   bookId: number;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private bookService: BooksService) { }
+              private bookService: BooksService) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(
@@ -26,10 +26,10 @@ export class BookDetailsComponent implements OnInit {
   selectBookById() {
     // const hasBookId = +this.activatedRoute.snapshot.paramMap.has("id")
     // if (hasBookId) {
-      this.bookId = +this.activatedRoute.snapshot.paramMap.get('id');
+    this.bookId = +this.activatedRoute.snapshot.paramMap.get('id');
     // }
     console.log("id "+ this.bookId);
-    
+
     this.bookService.getBookById(this.bookId).subscribe(
       (book) => {
         this.book = book;

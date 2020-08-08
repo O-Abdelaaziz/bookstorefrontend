@@ -11,7 +11,7 @@ export class CategoryComponent implements OnInit {
   categories :Category[];
 
   constructor(private categoriesService: CategoriesService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.selectAllCategories();
@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit {
     this.categoriesService.getAllCategories().subscribe(
       (categories)=>{
         this.categories=categories;
-        // console.log(categories);      
+        // console.log(categories);
       }
     );
   }
