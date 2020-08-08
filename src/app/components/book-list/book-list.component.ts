@@ -14,6 +14,7 @@ export class BookListComponent implements OnInit {
   books: Book[];
   categories :Category[];
   categoryId:number;
+  bookName:string;
 
   constructor(
     private booksService: BooksService,
@@ -21,18 +22,20 @@ export class BookListComponent implements OnInit {
     private activatedRout: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.SelectAllBooks();
-
+    this.selectAllBooks();
+    this.selectAllBooksByName();
     this.activatedRout.paramMap.subscribe(
       ()=>{
-        this.SelectAllBooks();
+        this.selectAllBooks();
+        this.selectAllBooksByName();
       }
     );
 
-    this.SelectAllCategories();
+    this.selectAllCategories();
+    
   }
 
-  SelectAllBooks() {
+  selectAllBooks() {
     const hasCategoryId:boolean= this.activatedRout.snapshot.paramMap.has('id');
     if(hasCategoryId){
       this.categoryId= +this.activatedRout.snapshot.paramMap.get('id');
@@ -46,13 +49,31 @@ export class BookListComponent implements OnInit {
     );
   }
 
-  SelectAllCategories(){
+  selectAllCategories(){
     this.categoriesService.getAllCategories().subscribe(
       (categories)=>{
         this.categories=categories;
-        console.log(categories);
-        
+        // console.log(categories);      
       }
     );
   }
+
+  selectAllBooksByName(){
+    const hasBookName=this.activatedRout.snapshot.paramMap.has('name');
+    if(hasBookName){
+      this.bookName=this.activatedRout.snapshot.paramMap.get('name');
+    }else{
+      this.bookName='';
+    }
+    console.log("name "+ this.bookName);
+    
+    this.booksService.getAllBooksByName(this.bookName).subscribe(
+      (bookListByName)=>{
+        this.books=bookListByName;
+        // console.log(bookListByName);
+        
+      }
+    )
+  }
+
 }

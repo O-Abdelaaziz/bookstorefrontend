@@ -26,5 +26,14 @@ export class BooksService {
       map(response=>response._embedded.books)
     );
   }
+
+  getAllBooksByName(name:string):Observable<Book[]>{
+    const searchUrl=`${this.baseUrl}/search/findByNameContaining?name=${name}`;
+    return this.http.get<GetEmbeddedBooks>(searchUrl).pipe(
+      map(response=>response._embedded.books)
+    );
+  }
+
+
 }
 
