@@ -9,6 +9,7 @@ import { SearchComponent } from './components/search/search.component';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
 import { CategoryComponent } from './components/category/category.component';
 import {JwPaginationComponent} from 'jw-angular-pagination';
+
 @NgModule({
   declarations: [
     AppComponent,

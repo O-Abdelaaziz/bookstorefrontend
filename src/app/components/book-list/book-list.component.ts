@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BooksService } from 'src/app/services/books.service';
 import { Book } from 'src/app/models/book';
 import { ActivatedRoute } from '@angular/router';
-import { Category } from 'src/app/models/category';
-import { CategoriesService } from 'src/app/services/categories.service';
 
 @Component({
   selector: 'app-book-list',
@@ -14,6 +12,10 @@ export class BookListComponent implements OnInit {
   books: Book[];
   categoryId: number;
   bookName: string;
+
+  pageOfItems: Array<Book>;
+  pageSize: number = 6;
+
 
   constructor(
     private booksService: BooksService,
@@ -37,18 +39,14 @@ export class BookListComponent implements OnInit {
     } else {
       this.categoryId = 1;
     }
-    console.log("category id" + this.categoryId);
 
     this.booksService.getAllBooks(this.categoryId).subscribe(
       (books) => {
         this.books = books;
-        console.log("books" + books);
 
       }
     );
   }
-
-
 
   selectAllBooksByName() {
     // const hasBookName=this.activatedRoute.snapshot.paramMap.has('name');
@@ -58,14 +56,17 @@ export class BookListComponent implements OnInit {
     //   this.bookName='';
     // }    
 
-    console.log("bookName " + this.bookName);
     this.booksService.getAllBooksByName(this.bookName).subscribe(
       (bookListByName) => {
         this.books = bookListByName;
-        console.log("bookListByName " + bookListByName);
 
       }
     )
+  }
+
+  onChangePage(pageOfItems: Array<Book>) {
+    // update current page of items
+    this.pageOfItems = pageOfItems;
   }
 
 }
