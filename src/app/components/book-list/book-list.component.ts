@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { BooksService } from 'src/app/services/books.service';
-import { Book } from 'src/app/models/book';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {BooksService} from 'src/app/services/books.service';
+import {Book} from 'src/app/models/book';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-book-list',
@@ -12,27 +12,35 @@ export class BookListComponent implements OnInit {
   books: Book[];
   categoryId: number;
   bookName: string;
-
+  searchMode: boolean;
   pageOfItems: Array<Book>;
   pageSize: number = 6;
 
 
   constructor(
     private booksService: BooksService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
-    this.selectAllBooks();
-    this.selectAllBooksByName();
     this.activatedRoute.paramMap.subscribe(
       () => {
-        this.selectAllBooks();
-        //this.selectAllBooksByName();
+        this.selectAllBook();
       }
     );
   }
 
-  selectAllBooks() {
+  selectAllBook(){
+    this.searchMode = this.activatedRoute.snapshot.paramMap.has('name');
+    if(this.searchMode){
+      this.selectAllBooksByName();
+    }else{
+      this.selectAllBooksByCategoryId();
+    }
+  }
+
+
+  selectAllBooksByCategoryId() {
     const hasCategoryId: boolean = this.activatedRoute.snapshot.paramMap.has('id');
     if (hasCategoryId) {
       this.categoryId = +this.activatedRoute.snapshot.paramMap.get('id');
@@ -43,30 +51,29 @@ export class BookListComponent implements OnInit {
     this.booksService.getAllBooks(this.categoryId).subscribe(
       (books) => {
         this.books = books;
-
       }
     );
   }
 
   selectAllBooksByName() {
-    // const hasBookName=this.activatedRoute.snapshot.paramMap.has('name');
-    // if(hasBookName){
     this.bookName = this.activatedRoute.snapshot.paramMap.get('name');
-    // }else{
-    //   this.bookName='';
-    // }
 
     this.booksService.getAllBooksByName(this.bookName).subscribe(
       (bookListByName) => {
         this.books = bookListByName;
-
       }
-    )
+    );
   }
+
 
   onChangePage(pageOfItems: Array<Book>) {
     // update current page of items
     this.pageOfItems = pageOfItems;
+  }
+
+  updatePageSize(pageSize:number){
+    this.pageSize=pageSize;
+    this.selectAllBook();
   }
 
 }
