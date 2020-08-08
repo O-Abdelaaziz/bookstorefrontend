@@ -64,9 +64,7 @@ export class BookListComponent implements OnInit {
       this.bookName=this.activatedRout.snapshot.paramMap.get('name');
     }else{
       this.bookName='';
-    }
-    console.log("name "+ this.bookName);
-    
+    }    
     this.booksService.getAllBooksByName(this.bookName).subscribe(
       (bookListByName)=>{
         this.books=bookListByName;
