@@ -34,6 +34,11 @@ export class BooksService {
     );
   }
 
+  getBookById(id:number):Observable<Book>{
+    const searchUrl=`${this.baseUrl}/${id}`;
+    return this.http.get<Book>(searchUrl);
+  }
+
 
 }
 
