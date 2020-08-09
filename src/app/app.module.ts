@@ -8,8 +8,9 @@ import { BookListComponent } from './components/book-list/book-list.component';
 import { SearchComponent } from './components/search/search.component';
 import { CategoryComponent } from './components/category/category.component';
 import { BookDetailsComponent } from './components/book-details/book-details.component';
-import {JwPaginationModule} from 'jw-angular-pagination';
-
+// import {JwPaginationModule} from 'jw-angular-pagination';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,13 +18,15 @@ import {JwPaginationModule} from 'jw-angular-pagination';
     SearchComponent,
     CategoryComponent,
     BookDetailsComponent,
+    CartStatusComponent,
 
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    JwPaginationModule
+    // JwPaginationModule,
+    NgbModule
 
   ],
   providers: [],

@@ -8,6 +8,12 @@ import{map}from 'rxjs/operators';
 interface GetEmbeddedBooks {
   _embedded: {
     books: Book[];
+  },
+  page:{
+    size:number,
+    totalElements:number,
+    totalPages:number,
+    number:number
   }
 }
 
@@ -20,18 +26,14 @@ export class BooksService {
 
   constructor(private http: HttpClient) { }
 
-  getAllBooks(categoryId:number): Observable<Book[]> {
-    const searchUrl=`${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
-    return this.http.get<GetEmbeddedBooks>(searchUrl).pipe(
-      map(response=>response._embedded.books)
-    );
+  getAllBooks(categoryId:number,currentPage:number,pageSize:number): Observable<GetEmbeddedBooks> {
+    const searchUrl=`${this.baseUrl}/search/findByCategoryId?id=${categoryId}&page=${currentPage}&size=${pageSize}`;
+    return this.http.get<GetEmbeddedBooks>(searchUrl);
   }
 
-  getAllBooksByName(name:string):Observable<Book[]>{
-    const searchUrl=`${this.baseUrl}/search/findByNameContaining?name=${name}`;
-    return this.http.get<GetEmbeddedBooks>(searchUrl).pipe(
-      map(response=>response._embedded.books)
-    );
+  getAllBooksByName(name:string,currentPage:number,pageSize:number):Observable<GetEmbeddedBooks>{
+    const searchUrl=`${this.baseUrl}/search/findByNameContaining?name=${name}&page=${currentPage}&size=${pageSize}`;
+    return this.http.get<GetEmbeddedBooks>(searchUrl);
   }
 
   getBookById(id:number):Observable<Book>{
