@@ -3,6 +3,9 @@ import {BooksService} from 'src/app/services/books.service';
 import {Book} from 'src/app/models/book';
 import {ActivatedRoute} from '@angular/router';
 import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
+import {CartService} from '../../services/cart.service';
+import {Cartitem} from '../../models/cartitem';
+
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
@@ -20,10 +23,11 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private booksService: BooksService,
+    private cartService: CartService,
     private activatedRoute: ActivatedRoute,
-    private ngbPaginationConfig:NgbPaginationConfig) {
-    ngbPaginationConfig.maxSize=3;
-    ngbPaginationConfig.boundaryLinks=true;
+    private ngbPaginationConfig: NgbPaginationConfig) {
+    ngbPaginationConfig.maxSize = 3;
+    ngbPaginationConfig.boundaryLinks = true;
   }
 
   ngOnInit(): void {
@@ -52,11 +56,11 @@ export class BookListComponent implements OnInit {
       this.categoryId = 1;
     }
 
-    if(this.previousCategory != this.categoryId){
-      this.currentPage=1;
+    if (this.previousCategory != this.categoryId) {
+      this.currentPage = 1;
     }
 
-    this.previousCategory=this.categoryId;
+    this.previousCategory = this.categoryId;
 
     this.booksService.getAllBooks(this.categoryId, this.currentPage - 1, this.pageSize).subscribe(
       (books) => {
@@ -71,7 +75,7 @@ export class BookListComponent implements OnInit {
   selectAllBooksByName() {
     this.bookName = this.activatedRoute.snapshot.paramMap.get('name');
 
-    this.booksService.getAllBooksByName(this.bookName,this.currentPage - 1, this.pageSize).subscribe(
+    this.booksService.getAllBooksByName(this.bookName, this.currentPage - 1, this.pageSize).subscribe(
       (bookListByName) => {
         this.books = bookListByName._embedded.books;
         this.currentPage = bookListByName.page.number + 1;
@@ -85,6 +89,11 @@ export class BookListComponent implements OnInit {
     this.pageSize = pageSize;
     this.currentPage = 1;
     this.selectAllBook();
+  }
+
+  addToCart(book:Book){
+    const cartItem=new Cartitem(book);
+    this.cartService.addToCart(cartItem);
   }
 
 }
