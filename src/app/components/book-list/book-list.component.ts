@@ -5,6 +5,7 @@ import {ActivatedRoute} from '@angular/router';
 import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
 import {CartService} from '../../services/cart.service';
 import {Cartitem} from '../../models/cartitem';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-book-list',
@@ -23,6 +24,7 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private booksService: BooksService,
+    private spinnerService:NgxSpinnerService,
     private cartService: CartService,
     private activatedRoute: ActivatedRoute,
     private ngbPaginationConfig: NgbPaginationConfig) {
@@ -39,6 +41,7 @@ export class BookListComponent implements OnInit {
   }
 
   selectAllBook() {
+    this.spinnerService.show();
     this.searchMode = this.activatedRoute.snapshot.paramMap.has('name');
     if (this.searchMode) {
       this.selectAllBooksByName();
@@ -63,12 +66,7 @@ export class BookListComponent implements OnInit {
     this.previousCategory = this.categoryId;
 
     this.booksService.getAllBooks(this.categoryId, this.currentPage - 1, this.pageSize).subscribe(
-      (books) => {
-        this.books = books._embedded.books;
-        this.currentPage = books.page.number + 1;
-        this.totalItems = books.page.totalElements;
-        this.pageSize = books.page.size;
-      }
+      this.loadBookWithSppiner()
     );
   }
 
@@ -76,12 +74,7 @@ export class BookListComponent implements OnInit {
     this.bookName = this.activatedRoute.snapshot.paramMap.get('name');
 
     this.booksService.getAllBooksByName(this.bookName, this.currentPage - 1, this.pageSize).subscribe(
-      (bookListByName) => {
-        this.books = bookListByName._embedded.books;
-        this.currentPage = bookListByName.page.number + 1;
-        this.totalItems = bookListByName.page.totalElements;
-        this.pageSize = bookListByName.page.size;
-      }
+      this.loadBookWithSppiner()
     );
   }
 
@@ -94,6 +87,16 @@ export class BookListComponent implements OnInit {
   addToCart(book:Book){
     const cartItem=new Cartitem(book);
     this.cartService.addToCart(cartItem);
+  }
+
+  loadBookWithSppiner(){
+    return (books) => {
+        this.spinnerService.hide();
+      this.books = books._embedded.books;
+      this.currentPage = books.page.number + 1;
+      this.totalItems = books.page.totalElements;
+      this.pageSize = books.page.size;
+    }
   }
 
 }

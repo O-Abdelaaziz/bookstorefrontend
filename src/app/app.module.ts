@@ -11,6 +11,9 @@ import { BookDetailsComponent } from './components/book-details/book-details.com
 // import {JwPaginationModule} from 'jw-angular-pagination';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +29,9 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
     HttpClientModule,
     AppRoutingModule,
     // JwPaginationModule,
-    NgbModule
+    NgbModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule
 
   ],
   providers: [],
