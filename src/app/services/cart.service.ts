@@ -31,7 +31,7 @@ export class CartService {
     this.calculateTotalPrice();
   }
 
-  private calculateTotalPrice() {
+  public calculateTotalPrice() {
     let totalPriceValue:number=0;
     let totalQuantityValue:number=0;
 
@@ -42,5 +42,29 @@ export class CartService {
 
     this.totalPrice.next(totalPriceValue);
     this.totalQuantity.next(totalQuantityValue);
+  }
+
+  remove(cartItem:Cartitem){
+    const itemIndex=this.cartItems.findIndex(
+      temCartItem=>temCartItem.id=cartItem.id
+    );
+
+    if(itemIndex>-1){
+      this.cartItems.splice(itemIndex,1);
+      this.calculateTotalPrice();
+    }
+  }
+
+  incrementQte(cartItem:Cartitem){
+    cartItem.quantity++;
+    this.calculateTotalPrice();
+  }
+
+  decrementQte(cartItem:Cartitem){
+    cartItem.quantity--;
+    if(cartItem.quantity <= 0){
+      this.remove(cartItem);
+    }
+    this.calculateTotalPrice();
   }
 }

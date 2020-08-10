@@ -12,7 +12,8 @@ import { BookDetailsComponent } from './components/book-details/book-details.com
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component'; 
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CategoryComponent,
     BookDetailsComponent,
     CartStatusComponent,
+    CartDetailsComponent,
 
   ],
   imports: [

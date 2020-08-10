@@ -1,0 +1,67 @@
+<div class="col-12" *ngIf="cartItems?.length > 0">
+    <table class="table table-bordered table-responsive">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th>Book Image</th>
+                <th>Book Details</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cartItem of cartItems">
+                <td>
+                    <img [src]="cartItem.image_url" class="img-responsive" width="150" height="150">
+                </td>
+                <td>
+                    <p>{{cartItem.name}}</p>
+                    <p>{{cartItem.unit_price |currency}}</p>
+                </td>
+                <td>
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <p>Quantity:
+                                <span (click)="remove(cartItem)" class="float-right pointer text-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <button (click)="incrementQte(cartItem)" class="btn btn-primary float-left">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            {{cartItem.quantity}}
+                        </div>
+                        <div class="col-md-4">
+                            <button (click)="decrementQte(cartItem)" class="btn btn-primary float-right">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+
+
+                        <div class="col-md-12 mt-2">
+                            <p>{{cartItem.quantity * cartItem.unit_price |currency}}</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td class="font-weight-bold">
+                    <p>Total Quantity {{totalQte}}</p>
+                    <p>Shipping Free</p>
+                    <p>Total Price {{totalPrice |currency}}</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<div class="col-md-12">
+    <div class="alert alert-danger" role="alert" *ngIf="cartItems?.length == 0 ||!cartItems">
+        There is no book available with this name .please chose anthor name and repete again.
+    </div>
+</div>

@@ -1,11 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {BooksService} from 'src/app/services/books.service';
-import {Book} from 'src/app/models/book';
-import {ActivatedRoute} from '@angular/router';
-import {NgbPaginationConfig} from '@ng-bootstrap/ng-bootstrap';
-import {CartService} from '../../services/cart.service';
-import {Cartitem} from '../../models/cartitem';
+import { Component, OnInit } from '@angular/core';
+import { BooksService } from 'src/app/services/books.service';
+import { Book } from 'src/app/models/book';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbPaginationConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CartService } from '../../services/cart.service';
+import { Cartitem } from '../../models/cartitem';
 import { NgxSpinnerService } from 'ngx-spinner';
+//import * as $ from 'jquery';
+import 'bootstrap-notify';
+
+
+declare var $;
 
 @Component({
   selector: 'app-book-list',
@@ -24,9 +29,10 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private booksService: BooksService,
-    private spinnerService:NgxSpinnerService,
+    private spinnerService: NgxSpinnerService,
     private cartService: CartService,
     private activatedRoute: ActivatedRoute,
+    private router:Router,
     private ngbPaginationConfig: NgbPaginationConfig) {
     ngbPaginationConfig.maxSize = 3;
     ngbPaginationConfig.boundaryLinks = true;
@@ -84,19 +90,35 @@ export class BookListComponent implements OnInit {
     this.selectAllBook();
   }
 
-  addToCart(book:Book){
-    const cartItem=new Cartitem(book);
+  addToCart(book: Book) {
+    const cartItem = new Cartitem(book);
     this.cartService.addToCart(cartItem);
+    //this.showNotification(book);
   }
 
-  loadBookWithSppiner(){
+  loadBookWithSppiner() {
     return (books) => {
-        this.spinnerService.hide();
+      this.spinnerService.hide();
       this.books = books._embedded.books;
       this.currentPage = books.page.number + 1;
       this.totalItems = books.page.totalElements;
       this.pageSize = books.page.size;
     }
+  }
+
+  showNotification(book :Book) {
+    $.notify({
+      // options
+      icon: 'glyphicon glyphicon-warning-sign',
+      title: 'Item Add To Cart',
+      message: `The ${book.name} is add to cart successfully.`,
+    }, {
+      // settings
+      element: 'body',
+      type: 'info',
+      allow_dismiss: true,
+      url_target:'_blank'
+    });
   }
 
 }
